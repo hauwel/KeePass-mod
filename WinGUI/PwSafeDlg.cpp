@@ -23,6 +23,7 @@
 #include <mmsystem.h>
 
 #include <boost/algorithm/string.hpp>
+#include <set>
 
 #include "PwSafe.h"
 #include "PwSafeDlg.h"
@@ -9979,15 +9980,29 @@ LRESULT CPwSafeDlg::OnHotKey(WPARAM wParam, LPARAM lParam)
 		if(m_bFileOpen == FALSE) { m_bGlobalAutoTypePending = FALSE; return 0; }
 
 		HWND hWnd = ::GetForegroundWindow();
-		const int nLen = ::GetWindowTextLength(hWnd);
-		if(nLen <= 0) { m_bGlobalAutoTypePending = FALSE; return 0; }
+		int nPrtLen = ::GetWindowTextLength(hWnd);
+		int nChdLen = 0;
+		if(nPrtLen <= 0) { m_bGlobalAutoTypePending = FALSE; return 0; }
 
-		std::vector<TCHAR> vWindow(static_cast<size_t>(nLen + 3), _T('\0'));
+		std::vector<TCHAR> vWindow(static_cast<size_t>(nPrtLen + 3), _T('\0'));
 
 		m_bDisplayDialog = TRUE;
 
-		::GetWindowText(hWnd, &vWindow[0], nLen + 2);
+		::GetWindowText(hWnd, &vWindow[0], nPrtLen + 2);
+		CString strChdWnd = TRL("Chrome_AutocompleteEditView");
+		HWND hChdWnd = ::FindWindowEx(hWnd, NULL, strChdWnd, NULL);
+		// Not found thus not in Google Chrome
+		if (hChdWnd != NULL) {
+			nChdLen = ::SendMessage(hChdWnd, WM_GETTEXTLENGTH, 0, 0);
+			if(nChdLen > 0) {
+				std::vector<TCHAR> vChdWindow(static_cast<size_t>(nChdLen + 3), _T('\0'));
+				::SendMessage(hChdWnd, WM_GETTEXT, (WPARAM)nChdLen + 2, (LPARAM)&vChdWindow[0]);
+				if(nChdLen > 256) {vChdWindow.erase(vChdWindow.begin()+255, vChdWindow.end()-3);}
+				vWindow.insert(vWindow.end()-3, vChdWindow.begin(), vChdWindow.end()-3);
+			}
+		}
 
+		const int nLen = nChdLen+nPrtLen;
 		PW_ENTRY *pe = NULL;
 		CString strCurWindow = &vWindow[0], strWindowExp, strWindowLookup;
 		bool bLeft, bRight;
@@ -10038,7 +10053,7 @@ LRESULT CPwSafeDlg::OnHotKey(WPARAM wParam, LPARAM lParam)
 
 				if(strWindowExp.GetLength() != 0) // An auto-type-window definition has been found
 				{
-					bLeft = (strWindowExp.Left(1) == _T("*"));
+ 					bLeft = (strWindowExp.Left(1) == _T("*"));
 					bRight = (strWindowExp.Right(1) == _T("*"));
 
 					if(bLeft) strWindowExp.Delete(0, 1);
