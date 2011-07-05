@@ -1,4 +1,4 @@
-// Modified version of Keith Rule's CMemDC.
+// Modified version of Keith Rule's CMemoryDC.
 // Editor: Dominik Reichl
 
 #if !defined(AFX_MEMDC_H__CA1D3541_7235_11D1_ABBA_00A0243D1382__INCLUDED_)
@@ -11,7 +11,7 @@
 //
 
 //////////////////////////////////////////////////
-// CMemDC - memory DC
+// CMemoryDC - memory DC
 //
 // Author: Keith Rule
 // Email:  keithr@europa.com
@@ -26,12 +26,12 @@
 //
 // This class implements a memory Device Context
 
-class CMemDC : public CDC
+class CMemoryDC : public CDC
 {
 public:
 
 	// constructor sets up the memory DC
-	CMemDC(CDC* pDC, int nOffset = 0) : CDC()
+	CMemoryDC(CDC* pDC, int nOffset = 0) : CDC()
     {
 		ASSERT(pDC != NULL);
 		
@@ -58,7 +58,7 @@ public:
 	}
 	
 	// Destructor copies the contents of the mem DC to the original DC
-	~CMemDC()
+	~CMemoryDC()
     {
 		if (m_bMemDC) {	
 			// Copy the offscreen bitmap onto the screen.
@@ -76,14 +76,14 @@ public:
 	}
 	
 	// Allow usage as a pointer
-    CMemDC* operator->() {return this;}
+    CMemoryDC* operator->() {return this;}
 	
     // Allow usage as a pointer
-    operator CMemDC*() {return this;}
+    operator CMemoryDC*() {return this;}
 
 private:
 	CBitmap  m_bitmap;		// Offscreen bitmap
-    CBitmap* m_pOldBitmap;	// bitmap originally found in CMemDC
+    CBitmap* m_pOldBitmap;	// bitmap originally found in CMemoryDC
     CDC*     m_pDC;			// Saves CDC passed in constructor
     CRect    m_rect;		// Rectangle of drawing area.
     BOOL     m_bMemDC;		// TRUE if CDC really is a Memory DC.

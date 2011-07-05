@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "KeePassMsi", "KeePassMsi.vdproj", "{0F980B96-D5FF-4A2F-BC9E-B9A4E0E2DDA6}"
 EndProject
 Global

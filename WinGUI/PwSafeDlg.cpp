@@ -19,8 +19,9 @@
 
 #include "StdAfx.h"
 #include <afxadv.h>
-#include <winable.h>
+#include <winuser.h>
 #include <mmsystem.h>
+#include <set>
 
 #include <boost/algorithm/string.hpp>
 

@@ -37,6 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <cassert>
 #include <cctype>
 #include <sstream>
+#include <iterator>
 
 namespace {
 

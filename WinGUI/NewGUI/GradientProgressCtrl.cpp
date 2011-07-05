@@ -266,7 +266,7 @@ void CGradientProgressCtrl::DrawGradient(CPaintDC *pDC, const RECT &rectClient, 
 	CBrush brush;			// Brush to fill in the bar	
 
 	
-	CMemDC memDC(pDC);
+	CMemoryDC memDC(pDC);
 
 	// First find out the largest color distance between the start and end colors.  This distance
 	// will determine how many steps we use to carve up the client region and the size of each

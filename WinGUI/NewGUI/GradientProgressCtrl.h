@@ -28,7 +28,7 @@
 // foregoing disclaimer.
 
 
-#include "MemDC.h"
+#include "MemoryDC.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CGradientProgressCtrl window
